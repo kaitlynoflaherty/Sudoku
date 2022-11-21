@@ -15,7 +15,7 @@ class Cell
     
     // member fucntions
     int getCell();
-    void setCell(int value);
+    void setCellVal(int value);
     vector<int> isPossible;
     vector<int> getConflicts();
     void clearCell();
@@ -54,7 +54,7 @@ int Cell::getCell()
 }
 
 
-void Cell::setCell(int value)
+void Cell::setCellVal(int value)
 // Function to get cell value
 {
     _cellValue = value;

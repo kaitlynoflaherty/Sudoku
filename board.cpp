@@ -4,14 +4,15 @@
 #include <limits.h>
 #include "d_matrix.h"
 #include "d_except.h"
+#include "Cell.h"
 #include <list>
 #include <fstream>
 
 using namespace std;
 
-typedef int ValueType; // The type of the value in a cell
+typedef int Cell; // The type of the value in a cell
 const int Blank = -1;  // Indicates that a cell is blank
- 
+
 const int SquareSize = 3;  //  The number of cells in a small square
                            //  (usually 3).  The board has
                            //  SquareSize^2 rows and SquareSize^2
@@ -28,21 +29,29 @@ class board
 // Stores the entire Sudoku board
 {
    public:
-      board(int);
+      board(int sqSize);
       void clear();
       void initialize(ifstream &fin);
       void print();
-      bool isBlank(int, int);
-      ValueType getCell(int, int);
+      bool isBlank(int i, int j);
+      Cell getCell(int i, int j);
+
+      // ***4a Functions***
+      void setCell(int i, int j, int value);
+      void emptyCell(int i, int j);
+      bool isSolved();
+      void setConflicts(int row, int col, Cell &cell);
+      void updateConflicts();
+      void printConflicts();
       
    private:
 
       // The following matrices go from 1 to BoardSize in each
       // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
-      matrix<cell> value;
+      matrix<Cell> value;
 
-      matrix<ValueType> value;
 }; // end board class
+
 
 board::board(int sqSize)
    : value(BoardSize+1,BoardSize+1)
@@ -76,6 +85,7 @@ void board::initialize(ifstream &fin)
           // If the read char is not Blank
 	      if (ch != '.')
              setCell(i,j,ch-'0');   // Convert char to int
+             value[i][j].givenVal = true;
         }
 }
 
@@ -97,7 +107,7 @@ ostream &operator<<(ostream &ostr, vector<int> &v)
    cout << endl;
 }
 
-ValueType board::getCell(int i, int j)
+Cell board::getCell(int i, int j)
 // Returns the value stored in a cell.  Throws an exception
 // if bad values are passed.
 {
@@ -147,6 +157,38 @@ void board::print()
       cout << "---";
    cout << "-";
    cout << endl;
+}
+
+void board::setCell(int i, int j, int value)
+// Functions to set cell object to matrix value
+{
+   value[i][j].setCellVal(value);
+}
+
+void board::emptyCell(int i, int j)
+// Fucntion to clear cell
+{
+    value[i][j].clearCell();
+    updateConflicts();
+}
+
+bool board::isSolved()
+// Fucntion to determine if solved
+{
+    bool solved = true;
+    updateConflicts();
+    for (int i=0; i<BoardSize; i++)
+    {
+        for (int j=0; j<BoardSize; j++)
+        {
+            // check for blanks
+            if (isBlank(i, j) == true)
+            {
+                solved = false;
+            }
+        }
+    }
+    return solved;
 }
 
 int main()

@@ -39,9 +39,10 @@ class board
 
       // The following matrices go from 1 to BoardSize in each
       // dimension, i.e., they are each (BoardSize+1) * (BoardSize+1)
+      matrix<cell> value;
 
       matrix<ValueType> value;
-};
+}; // end board class
 
 board::board(int sqSize)
    : value(BoardSize+1,BoardSize+1)

@@ -50,15 +50,21 @@ class board
       matrix<ValueType> value;
 
       // 4a matrices
-      matrix<bool> row_conflicts;
-      matrix<bool> col_conflicts;
-      matrix<bool> sqr_conflicts;
+      // Keeps track of the conflicts in each row, column, and square
+      matrix<bool> r_confs;
+      matrix<bool> c_confs;
+      matrix<bool> sqr_confs;
+      // Keeps track of the digits that have been placed
+      matrix<vector<bool>> placed;
 };
 
 board::board(int sqSize)
-   : value(BoardSize+1,BoardSize+1), row_conflicts(BoardSize+1,BoardSize+1),
-   col_conflicts(BoardSize+1,BoardSize+1), sqr_conflicts(BoardSize+1,BoardSize+1)
+   : value(BoardSize+1,BoardSize+1), r_confs(BoardSize+1,BoardSize+1),
+   c_confs(BoardSize+1,BoardSize+1), sqr_confs(BoardSize+1,BoardSize+1),
+   placed(BoardSize+1,BoardSize+1)
 // Board constructor
+// Initializes the size of the 2D board value matrix, 2D conflict matrices,
+// and the 3D matrix to track digits that have been placed
 {
    clear();
 }
@@ -67,10 +73,19 @@ void board::clear()
 // Mark all possible values as legal for each board entry
 {
    for (int i = 1; i <= BoardSize; i++)
+   {
       for (int j = 1; j <= BoardSize; j++)
       {
-         value[i][j] = Blank;
+         for  (int v = 0; v <= BoardSize; v++) // one extra to go from 1 - 9
+         {
+            placed[i][j].push_back(false);
+            value[i][j] = Blank;
+            r_confs[i][j] = false;
+            c_confs[i][j] = false;
+            sqr_confs[i][j] = false;
+         }
       }
+   }
 }
 
 void board::initialize(ifstream &fin)
@@ -165,17 +180,25 @@ void board::print()
 void board::updateConflicts(int i, int j, int val, bool conf)
 // Updates the conflicts lists with a true or false value
 {
-   row_conflicts[i][val] = conf;
-   col_conflicts[j][val] = conf;
+   r_confs[i][val] = conf;
+   c_confs[j][val] = conf;
    int sqr = (j+2)/3 + ((i-1)/3)*3; // equation to find square
-   sqr_conflicts[sqr][val] = conf;
+   sqr_confs[sqr][val] = conf;
 }
 
 void board::setCell(int i, int j, int val)
 // Stores a value in a cell and updates conflicts
 {
-   value[i][j] = val;
-   updateConflicts(i, j, val, true);
+   if(!placed[i][j][val])
+   {
+      value[i][j] = val;
+      updateConflicts(i, j, val, true);
+      placed[i][j][val] = true;
+   }
+   else
+   {
+      cout << "Already been placed" << endl;
+   }
 }
 
 void board::clearCell(int i, int j, int val)
@@ -197,7 +220,7 @@ void board::printConflicts()
          for (int v = 1; v <= BoardSize; v++)
          {
             sqr = (j+2)/3 + ((i-1)/3)*3;
-            if(isBlank(i,j) and !(row_conflicts[i][v] or col_conflicts[j][v] or sqr_conflicts[sqr][v]))// J is candidate value
+            if(isBlank(i,j) and !(r_confs[i][v] or c_confs[j][v] or sqr_confs[sqr][v]))// J is candidate value
                cout << v << "  ";
          }
          cout << endl;

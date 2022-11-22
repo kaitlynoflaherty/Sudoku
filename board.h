@@ -35,10 +35,12 @@ class board
       bool isBlank(int, int);
       ValueType getCell(int, int);
 
+      // 4a Functions
       void setCell(int, int, int);
       void clearCell(int, int, int);
       void updateConflicts(int, int, int, bool);
       void printConflicts();
+      void isSolved();
       
    private:
 
@@ -47,7 +49,7 @@ class board
 
       matrix<ValueType> value;
 
-      // Part a
+      // 4a matrices
       matrix<bool> row_conflicts;
       matrix<bool> col_conflicts;
       matrix<bool> sqr_conflicts;
@@ -184,7 +186,7 @@ void board::clearCell(int i, int j, int val)
 }
 
 void board::printConflicts()
-// Prints the current board.
+// Prints the candidates for each cell
 {
    int sqr = 0;
    for (int i = 1; i <= BoardSize; i++)

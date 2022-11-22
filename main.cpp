@@ -35,7 +35,18 @@ int main()
 
         while (fin && fin.peek() != 'Z')
         {
+            // Print original board and conflicts
             b1.initialize(fin);
+            b1.print();
+            b1.printConflicts();
+
+            // Test for setting a cell
+            b1.setCell(1,2,6);
+            b1.print();
+            b1.printConflicts();
+
+            // Test for clearing a cell
+            b1.clearCell(1,2,6);
             b1.print();
             b1.printConflicts();
         }

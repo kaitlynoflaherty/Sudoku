@@ -58,16 +58,36 @@ int main()
             b1.initialize(fin);
             b1.print();
             b1.printConflicts();
+            if (b1.isSolved() == true)
+            {
+                cout <<"solved"<<endl;
+            }
+            else{
+                cout <<"not"<<endl;
+            }
 
             // Test for setting a cell
             b1.setCell(1,2,6);
             b1.print();
             b1.printConflicts();
-
+            if (b1.isSolved() == true)
+            {
+                cout <<"solved"<<endl;
+            }
+            else{
+                cout <<"not"<<endl;
+            }
             // Test for clearing a cell
             b1.clearCell(1,2,6);
             b1.print();
             b1.printConflicts();
+            if (b1.isSolved() == true)
+            {
+                cout <<"solved"<<endl;
+            }
+            else{
+                cout <<"not solved"<<endl;
+            }
         }
     }
 

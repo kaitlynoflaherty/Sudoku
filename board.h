@@ -40,7 +40,7 @@ class board
       void clearCell(int, int, int);
       void updateConflicts(int, int, int, bool);
       void printConflicts();
-      void isSolved();
+      bool isSolved();
       
    private:
 
@@ -206,6 +206,32 @@ void board::clearCell(int i, int j, int val)
 {
    value[i][j] = Blank;
    updateConflicts(i, j, val, false);
+}
+
+bool board::isSolved()
+// Fucntion to determine if solved
+{
+    bool solved = true;
+    int sqr = 0;
+    for (int i=1; i<BoardSize; i++)
+    {
+        for (int j=1; j<BoardSize; j++)
+        {
+            // check for blanks
+            if (isBlank(i, j) == true)
+            {
+                solved = false;
+            }
+
+            //check for conflicts
+            sqr = (j+2)/3 + ((i-1)/3)*3;
+            if (r_confs[i][j] || c_confs[i][j] || sqr_confs[sqr][j])
+            {
+               solved = false;
+            }
+        }
+    }
+    return solved;
 }
 
 void board::printConflicts()

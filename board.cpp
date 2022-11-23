@@ -177,6 +177,7 @@ bool board::isSolved()
 {
     bool solved = true;
     updateConflicts();
+    int sqr = 0;
     for (int i=0; i<BoardSize; i++)
     {
         for (int j=0; j<BoardSize; j++)
@@ -185,6 +186,13 @@ bool board::isSolved()
             if (isBlank(i, j) == true)
             {
                 solved = false;
+            }
+
+            //check for conflicts
+            sqr = (j+2)/3 + ((i-1)/3)*3;
+            if (r_confs[i][j] || c_confs[i][j] || sqr_confs[sqr][j])
+            {
+               solved = false;
             }
         }
     }

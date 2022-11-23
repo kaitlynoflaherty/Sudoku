@@ -18,14 +18,32 @@ using namespace std;
 int main()
 {
     ifstream fin;
+    ifstream g2;
+    ifstream g3;
 
-    // Read the sample grid from the file.
+    // Read in grids from files
     string fileName = "sudoku1.txt";
+    string fileName2 = "sudoku2.txt";
+    string fileName3 = "sudoku3.txt";
 
     fin.open(fileName.c_str());
     if (!fin)
     {
         cerr << "Cannot open " << fileName << endl;
+        exit(1);
+    }
+
+    g2.open(fileName2.c_str());
+    if (!g2)
+    {
+        cerr << "Cannot open " << fileName2 << endl;
+        exit(1);
+    }
+
+    g3.open(fileName3.c_str());
+    if (!g3)
+    {
+        cerr << "Cannot open " << fileName3 << endl;
         exit(1);
     }
 

@@ -58,34 +58,84 @@ int main()
             b1.initialize(fin);
             b1.print();
             b1.printConflicts();
-            if (b1.isSolved() == true)
-            {
-                cout <<"solved"<<endl;
-            }
-            else{
-                cout <<"not"<<endl;
-            }
 
             // Test for setting a cell
             b1.setCell(1,2,6);
             b1.print();
             b1.printConflicts();
-            if (b1.isSolved() == true)
-            {
-                cout <<"solved"<<endl;
-            }
-            else{
-                cout <<"not"<<endl;
-            }
+
             // Test for clearing a cell
             b1.clearCell(1,2,6);
             b1.print();
             b1.printConflicts();
+
+            // Check if solved
             if (b1.isSolved() == true)
             {
                 cout <<"solved"<<endl;
             }
-            else{
+            else
+            {
+                cout <<"not solved"<<endl;
+            }
+        }
+
+        board b2(SquareSize);
+
+        while (g2 && g2.peek() != 'Z')
+        {
+            // Print original board and conflicts
+            b2.initialize(g2);
+            b2.print();
+            b2.printConflicts();
+
+            // Test for setting a cell
+            b2.setCell(1,2,6);
+            b2.print();
+            b2.printConflicts();
+
+            // Test for clearing a cell
+            b2.clearCell(1,2,6);
+            b2.print();
+            b2.printConflicts();
+
+            // Check if solved
+            if (b2.isSolved() == true)
+            {
+                cout <<"solved"<<endl;
+            }
+            else
+            {
+                cout <<"not solved"<<endl;
+            }
+        }
+
+        board b3(SquareSize);
+
+        while (g3 && g3.peek() != 'Z')
+        {
+            // Print original board and conflicts
+            b3.initialize(g3);
+            b3.print();
+            b3.printConflicts();
+
+            // Test for setting a cell
+            b3.setCell(1,2,6);
+            b3.print();
+            b3.printConflicts();
+
+            // Test for clearing a cell
+            b3.clearCell(1,2,6);
+            b3.print();
+            b3.printConflicts();
+
+            // Check if solved
+            if (b3.isSolved() == true)
+            {
+                cout <<"solved"<<endl;
+            }
+            else
+            {
                 cout <<"not solved"<<endl;
             }
         }

@@ -55,7 +55,7 @@ class board
       matrix<bool> c_confs;
       matrix<bool> sqr_confs;
       // Keeps track of the digits that have been placed
-      matrix<vector<bool>> placed;
+      matrix<vector<bool> > placed;
 };
 
 board::board(int sqSize)
@@ -199,7 +199,7 @@ void board::setCell(int i, int j, int val)
    {
       cout << "Already been placed" << endl;
    }
-}
+} // End setCell
 
 void board::clearCell(int i, int j, int val)
 // Clears cell and updates conflicts
@@ -220,10 +220,11 @@ void board::printConflicts()
          for (int v = 1; v <= BoardSize; v++)
          {
             sqr = (j+2)/3 + ((i-1)/3)*3;
-            if(isBlank(i,j) and !(r_confs[i][v] or c_confs[j][v] or sqr_confs[sqr][v]))// J is candidate value
+            if(isBlank(i,j) and !(r_confs[i][v] or c_confs[j][v] or 
+               sqr_confs[sqr][v]))// J is candidate value
                cout << v << "  ";
          }
          cout << endl;
       }
    }
-}
+} // End printConflicts

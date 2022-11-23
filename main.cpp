@@ -26,6 +26,7 @@ int main()
     string fileName2 = "sudoku2.txt";
     string fileName3 = "sudoku3.txt";
 
+    // Error message if file can't be opened
     fin.open(fileName.c_str());
     if (!fin)
     {

@@ -46,7 +46,7 @@ class board
       // 4b functions
       bool isLegal(int, int, int);
       bool nextCell(int &, int &);
-      void solve();
+      bool solve();
       
    private:
 
@@ -210,27 +210,15 @@ void board::clearCell(int i, int j, int val)
 bool board::isSolved()
 // Fucntion to determine if solved
 {
-    bool solved = true;
-    int sqr = 0;
-    for (int i=1; i<BoardSize; i++)
-    {
-        for (int j=1; j<BoardSize; j++)
-        {
-            // check for blanks
-            if (isBlank(i, j) == true)
-            {
-                solved = false;
-            }
-
-            //check for conflicts
-            sqr = (j+2)/3 + ((i-1)/3)*3;
-            if (r_confs[i][j] || c_confs[i][j] || sqr_confs[sqr][j])
-            {
-               solved = false;
-            }
-        }
-    }
-    return solved;
+   for (int i=1; i<=BoardSize; i++)
+   {
+      for (int j=1; j<=BoardSize; j++)
+      {
+         if (isBlank(i, j))
+            return true;
+      }
+   }
+   return false;
 }
 
 void board::printConflicts()
@@ -283,7 +271,7 @@ bool board::nextCell(int &i, int &j)
 } // End nextCell
 
 
-void board::solve()
+bool board::solve()
 // Function that ties together all functions to solve sudoku board
 {
    int row = 0;
@@ -291,6 +279,7 @@ void board::solve()
    if(!nextCell(row, col))
    {
       print();
+      return true;
    }
    else
    {
@@ -299,12 +288,10 @@ void board::solve()
          if(isLegal(row, col, v))
          {
             setCell(row, col, v);
-            // if (row == 1 and col == 3 and v == 6)
-            // {
-            //    print();
-            //    printConflicts();
-            // }  
-            solve();
+            if(solve())
+            {
+               return true;
+            }
             clearCell(row, col, v);
          }
       }

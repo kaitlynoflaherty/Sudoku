@@ -2,7 +2,10 @@
 // 
 // Group Members: Lisa Byrne, Kaite O'Flaherty, Alek Tunik
 //
-// Description: Main file for sudoku project.
+// Description: Main file for sudoku project. Loads three sudoku boards, prints 
+// the original board, and then the solved board.
+// 
+// Assumptions: Sudoku Boards given are 9 by 9 and are solvable.
 
 #include <iostream>
 #include <fstream>
@@ -27,12 +30,20 @@ int main()
     string fileName2 = "sudoku2.txt";
     string fileName3 = "sudoku3.txt";
 
+    board b1(SquareSize);
+    board b2(SquareSize);
+    board b3(SquareSize);
+
     // Error message if file can't be opened
     fin.open(fileName.c_str());
     if (!fin)
     {
         cerr << "Cannot open " << fileName << endl;
         exit(1);
+    }
+    while (fin && fin.peek() != 'Z')
+    {
+        b1.initialize(fin);
     }
 
     g2.open(fileName2.c_str());
@@ -41,6 +52,11 @@ int main()
         cerr << "Cannot open " << fileName2 << endl;
         exit(1);
     }
+    while (g2 && g2.peek() != 'Z')
+    {
+        b2.initialize(g2);
+    }
+    
 
     g3.open(fileName3.c_str());
     if (!g3)
@@ -48,71 +64,27 @@ int main()
         cerr << "Cannot open " << fileName3 << endl;
         exit(1);
     }
-
-    try
+    while (g3 && g3.peek() != 'Z')
     {
-        board b1(SquareSize);
-
-        while (fin && fin.peek() != 'Z')
-        {
-            // Print original board and conflicts
-            b1.initialize(fin);
-            cout << "Board 1 unsolved:" << endl;
-            b1.print();
-            cout << "Board 1 solved:" << endl;
-            b1.solve();
-        }
-
-        board b2(SquareSize);
-
-        while (g2 && g2.peek() != 'Z')
-        {
-            // Print original board and conflicts
-            b2.initialize(g2);
-            cout << endl << "Board 2 unsolved:" << endl;
-            b2.print();
-            cout << "Board 2 solved:" << endl;
-            b2.solve();
-        }
-
-        board b3(SquareSize);
-
-        while (g3 && g3.peek() != 'Z')
-        {
-            // Print original board and conflicts
-            b3.initialize(g3);
-            cout << endl << "Board 3 unsolved:" << endl;
-            b3.print();
-            cout << "Board 3 solved:" << endl;
-            b3.solve();
-        }
-    //         b3.printConflicts();
-
-    //         // Test for setting a cell
-    //         b3.setCell(1,2,6);
-    //         b3.print();
-    //         b3.printConflicts();
-
-    //         // Test for clearing a cell
-    //         b3.clearCell(1,2,6);
-    //         b3.print();
-    //         b3.printConflicts();
-
-    //         // Check if solved
-    //         if (b3.isSolved() == true)
-    //         {
-    //             cout <<"solved"<<endl;
-    //         }
-    //         else
-    //         {
-    //             cout <<"not solved"<<endl;
-    //         }
-    //     }
+        b3.initialize(g3);
     }
 
-    catch  (indexRangeError &ex)
-    {
-        cout << ex.what() << endl;
-        exit(1);
-    }
+    // Print original boards and solved boards
+    cout << "Board 1 unsolved:" << endl;
+    b1.print();
+    cout << "Board 1 solved:" << endl;
+    b1.solve();
+
+    cout << endl << "Board 2 unsolved:" << endl;
+    b2.print();
+    cout << "Board 2 solved:" << endl;
+    b2.solve();
+
+    cout << endl << "Board 3 unsolved:" << endl;
+    b3.print();
+    cout << "Board 3 solved:" << endl;
+    b3.solve();
+
+    cout << "All done!" << endl;
+    return 0;
 } // end main

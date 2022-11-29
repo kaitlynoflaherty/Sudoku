@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include <limits.h>
-#include "d_matrix.h"
-#include "d_except.h"
 #include <list>
 #include <fstream>
+#include <tuple>
+#include "d_matrix.h"
+#include "d_except.h"
 
 using namespace std;
 
@@ -41,6 +42,11 @@ class board
       void updateConflicts(int, int, int, bool);
       void printConflicts();
       bool isSolved();
+
+      // 4b functions
+      bool isLegal(int, int, int);
+      bool nextCell(int &, int &);
+      void solve();
       
    private:
 
@@ -146,7 +152,6 @@ bool board::isBlank(int i, int j)
 void board::print()
 // Prints the current board.
 {
-   cout << "Current board: " << endl;
    for (int i = 1; i <= BoardSize; i++)
    {
       if ((i-1) % SquareSize == 0)
@@ -189,23 +194,17 @@ void board::updateConflicts(int i, int j, int val, bool conf)
 void board::setCell(int i, int j, int val)
 // Stores a value in a cell and updates conflicts
 {
-   if(!placed[i][j][val])
-   {
-      value[i][j] = val;
-      updateConflicts(i, j, val, true);
-      placed[i][j][val] = true;
-   }
-   else
-   {
-      cout << "Already been placed" << endl;
-   }
-} // End setCell
+   value[i][j] = val;
+   updateConflicts(i, j, val, true);
+   placed[i][j][val] = true;
+} 
 
 void board::clearCell(int i, int j, int val)
 // Clears cell and updates conflicts
 {
    value[i][j] = Blank;
    updateConflicts(i, j, val, false);
+   placed[i][j][val] = false;
 }
 
 bool board::isSolved()
@@ -247,10 +246,67 @@ void board::printConflicts()
          {
             sqr = (j+2)/3 + ((i-1)/3)*3;
             if(isBlank(i,j) and !(r_confs[i][v] or c_confs[j][v] or 
-               sqr_confs[sqr][v]))// J is candidate value
+               sqr_confs[sqr][v]) and !placed[i][j][v])// J is candidate value
                cout << v << "  ";
          }
          cout << endl;
       }
    }
 } // End printConflicts
+
+
+bool board::isLegal(int i, int j, int v)
+// Function to check if a given digit (v) can be placed in a given cell (i, j)
+{
+   int sqr = (j+2)/3 + ((i-1)/3)*3; // equation to find square
+   // legal iff the value hasn't been tried yet and there are no conflicts
+   if (!placed[i][j][v] and isBlank(i,j) and !(r_confs[i][v] or c_confs[j][v] or sqr_confs[sqr][v]))
+      return true;
+   else
+      return false;     
+} // End isLegal
+
+
+bool board::nextCell(int &i, int &j)
+// Find next cell
+{
+   // check each cell (i, j) for number of conflicts
+   for (i = 1; i <= BoardSize; i++)
+   {
+      for (j = 1; j <= BoardSize; j++)
+      {
+         if(isBlank(i,j))
+            return true;
+      }
+   }
+   return false;
+} // End nextCell
+
+
+void board::solve()
+// Function that ties together all functions to solve sudoku board
+{
+   int row = 0;
+   int col = 0;
+   if(!nextCell(row, col))
+   {
+      print();
+   }
+   else
+   {
+      for (int v = 1; v <= BoardSize; v++)
+      {
+         if(isLegal(row, col, v))
+         {
+            setCell(row, col, v);
+            // if (row == 1 and col == 3 and v == 6)
+            // {
+            //    print();
+            //    printConflicts();
+            // }  
+            solve();
+            clearCell(row, col, v);
+         }
+      }
+   }
+}

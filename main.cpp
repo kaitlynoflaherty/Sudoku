@@ -1,4 +1,4 @@
-// Project #4: Sudoku Part A
+// Project #4: Sudoku Part B
 // 
 // Group Members: Lisa Byrne, Kaite O'Flaherty, Alek Tunik
 //
@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <tuple>
 #include "cell.h"
 #include "d_matrix.h"
 #include "d_except.h"
@@ -56,28 +57,10 @@ int main()
         {
             // Print original board and conflicts
             b1.initialize(fin);
+            cout << "Board 1 unsolved:" << endl;
             b1.print();
-            b1.printConflicts();
-
-            // Test for setting a cell
-            b1.setCell(1,2,6);
-            b1.print();
-            b1.printConflicts();
-
-            // Test for clearing a cell
-            b1.clearCell(1,2,6);
-            b1.print();
-            b1.printConflicts();
-
-            // Check if solved
-            if (b1.isSolved() == true)
-            {
-                cout <<"solved"<<endl;
-            }
-            else
-            {
-                cout <<"not solved"<<endl;
-            }
+            cout << "Board 1 solved:" << endl;
+            b1.solve();
         }
 
         board b2(SquareSize);
@@ -86,28 +69,10 @@ int main()
         {
             // Print original board and conflicts
             b2.initialize(g2);
+            cout << endl << "Board 2 unsolved:" << endl;
             b2.print();
-            b2.printConflicts();
-
-            // Test for setting a cell
-            b2.setCell(1,2,6);
-            b2.print();
-            b2.printConflicts();
-
-            // Test for clearing a cell
-            b2.clearCell(1,2,6);
-            b2.print();
-            b2.printConflicts();
-
-            // Check if solved
-            if (b2.isSolved() == true)
-            {
-                cout <<"solved"<<endl;
-            }
-            else
-            {
-                cout <<"not solved"<<endl;
-            }
+            cout << "Board 2 solved:" << endl;
+            b2.solve();
         }
 
         board b3(SquareSize);
@@ -116,29 +81,33 @@ int main()
         {
             // Print original board and conflicts
             b3.initialize(g3);
+            cout << endl << "Board 3 unsolved:" << endl;
             b3.print();
-            b3.printConflicts();
-
-            // Test for setting a cell
-            b3.setCell(1,2,6);
-            b3.print();
-            b3.printConflicts();
-
-            // Test for clearing a cell
-            b3.clearCell(1,2,6);
-            b3.print();
-            b3.printConflicts();
-
-            // Check if solved
-            if (b3.isSolved() == true)
-            {
-                cout <<"solved"<<endl;
-            }
-            else
-            {
-                cout <<"not solved"<<endl;
-            }
+            cout << "Board 3 solved:" << endl;
+            b3.solve();
         }
+    //         b3.printConflicts();
+
+    //         // Test for setting a cell
+    //         b3.setCell(1,2,6);
+    //         b3.print();
+    //         b3.printConflicts();
+
+    //         // Test for clearing a cell
+    //         b3.clearCell(1,2,6);
+    //         b3.print();
+    //         b3.printConflicts();
+
+    //         // Check if solved
+    //         if (b3.isSolved() == true)
+    //         {
+    //             cout <<"solved"<<endl;
+    //         }
+    //         else
+    //         {
+    //             cout <<"not solved"<<endl;
+    //         }
+    //     }
     }
 
     catch  (indexRangeError &ex)

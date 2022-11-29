@@ -248,7 +248,7 @@ bool board::isLegal(int i, int j, int v)
 {
    int sqr = (j+2)/3 + ((i-1)/3)*3; // equation to find square
    // legal iff the value hasn't been tried yet and there are no conflicts
-   if (!placed[i][j][v] and isBlank(i,j) and !(r_confs[i][v] or c_confs[j][v] or sqr_confs[sqr][v]))
+   if (!(r_confs[i][v] or c_confs[j][v] or sqr_confs[sqr][v]))
       return true;
    else
       return false;     
@@ -276,24 +276,31 @@ bool board::solve()
 {
    int row = 0;
    int col = 0;
-   if(!nextCell(row, col))
+   // If there are no empty cells, the sudoku is solved
+   if(!nextCell(row, col)) // gets the next row and col to fill in
    {
+      // return the solved board and exit
       print();
       return true;
    }
    else
    {
+      // checks for legal digits in next empty cell
       for (int v = 1; v <= BoardSize; v++)
       {
+         // if there is a candidate
          if(isLegal(row, col, v))
          {
+            // fill the cell
             setCell(row, col, v);
-            if(solve())
+            if(solve()) // next recursive call, checks if the puzzle is solved
             {
+               // exits
                return true;
             }
+            // if puzzle is not solved, clear the most recent cell
             clearCell(row, col, v);
          }
       }
    }
-}
+} // End of solve

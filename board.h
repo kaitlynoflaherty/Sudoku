@@ -296,7 +296,8 @@ bool board::solve(int &count)
             setCell(row, col, v);
             if(solve(count)) // next recursive call, checks if the puzzle is solved
             {
-               // exits
+               // prints count & exits
+               cout << count << endl;
                return true;
             }
             // if puzzle is not solved, clear the most recent cell

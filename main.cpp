@@ -73,17 +73,20 @@ int main()
     cout << "Board 1 unsolved:" << endl;
     b1.print();
     cout << "Board 1 solved:" << endl;
-    b1.solve();
+    int countb1 = 0;
+    b1.solve(countb1);
 
     cout << endl << "Board 2 unsolved:" << endl;
     b2.print();
     cout << "Board 2 solved:" << endl;
-    b2.solve();
+    int countb2 = 0;
+    b2.solve(countb2);
 
     cout << endl << "Board 3 unsolved:" << endl;
     b3.print();
     cout << "Board 3 solved:" << endl;
-    b3.solve();
+    int countb3 = 0;
+    b3.solve(countb3);
 
     cout << "All done!" << endl;
     return 0;

@@ -46,7 +46,7 @@ class board
       // 4b functions
       bool isLegal(int, int, int);
       bool nextCell(int &, int &);
-      bool solve();
+      bool solve(int &count);
       
    private:
 
@@ -271,9 +271,10 @@ bool board::nextCell(int &i, int &j)
 } // End nextCell
 
 
-bool board::solve()
+bool board::solve(int &count)
 // Function that ties together all functions to solve sudoku board
 {
+   count++;
    int row = 0;
    int col = 0;
    // If there are no empty cells, the sudoku is solved
@@ -293,7 +294,7 @@ bool board::solve()
          {
             // fill the cell
             setCell(row, col, v);
-            if(solve()) // next recursive call, checks if the puzzle is solved
+            if(solve(count)) // next recursive call, checks if the puzzle is solved
             {
                // exits
                return true;

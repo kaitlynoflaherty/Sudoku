@@ -34,6 +34,9 @@ int main()
     board b2(SquareSize);
     board b3(SquareSize);
 
+    int total = 0;
+    int avg = 0;
+
     // Error message if file can't be opened
     fin.open(fileName.c_str());
     if (!fin)
@@ -88,6 +91,10 @@ int main()
     int countb3 = 0;
     b3.solve(countb3);
 
+    total = b1.getRecursions() + b2.getRecursions() + b3.getRecursions();
+    cout << "Total recursive calls: " << total << endl;
+    avg = total/3;
+    cout << "Average number of recursive calls to solve board: " << avg << endl;
     cout << "All done!" << endl;
     return 0;
 } // end main

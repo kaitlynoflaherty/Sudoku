@@ -47,6 +47,8 @@ class board
       bool isLegal(int, int, int);
       bool nextCell(int &, int &);
       bool solve(int &count);
+      int getRecursions();
+      int recursions;
       
    private:
 
@@ -298,6 +300,7 @@ bool board::solve(int &count)
             {
                // prints count & exits
                cout << count << endl;
+               recursions = count;
                return true;
             }
             // if puzzle is not solved, clear the most recent cell
@@ -306,3 +309,9 @@ bool board::solve(int &count)
       }
    }
 } // End of solve
+
+int board::getRecursions()
+// Function to return number of recursive calls it took to solve each board
+{
+   return recursions;
+}

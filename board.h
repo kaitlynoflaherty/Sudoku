@@ -299,7 +299,7 @@ bool board::solve(int &count)
             if(solve(count)) // next recursive call, checks if the puzzle is solved
             {
                // prints count & exits
-               cout << count << endl;
+               // cout << count << endl;
                recursions = count;
                return true;
             }

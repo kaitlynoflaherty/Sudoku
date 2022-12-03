@@ -11,7 +11,6 @@
 #include <fstream>
 #include <stdlib.h>
 #include <tuple>
-#include "cell.h"
 #include "d_matrix.h"
 #include "d_except.h"
 #include "board.h"
@@ -92,6 +91,10 @@ int main()
     b3.solve(countb3);
 
     total = b1.getRecursions() + b2.getRecursions() + b3.getRecursions();
+    cout << endl << "Recursion Data:" << endl;
+    cout << "Recursive calls for Board 1: " << b1.getRecursions() << endl;
+    cout << "Recursive calls for Board 2: " << b2.getRecursions() << endl;
+    cout << "Recursive calls for Board 3: " << b3.getRecursions() << endl;
     cout << "Total recursive calls: " << total << endl;
     avg = total/3;
     cout << "Average number of recursive calls to solve board: " << avg << endl;
